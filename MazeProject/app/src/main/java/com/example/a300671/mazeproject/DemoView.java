@@ -109,6 +109,26 @@ class DemoView extends View
 
     }
 
+    void drawMaze() {
+        int[][][] walls = com.example.a205037.maze.Maze.getAllWalls();
+        int numWalls = com.example.a205037.maze.Maze.getNumberOfWalls();
+
+        int[][] wall;
+        int[] point1;
+        int[] point2;
+        for (int i = 0; i < numWalls; i += 1) {
+            wall = walls[i];
+            point1 = wall[0];
+            point2 = wall[1];
+
+            path.moveTo(point1[0] * stretchValue, point1[1] * stretchValue);
+            path.lineTo(point2[0] * stretchValue, point2[1] * stretchValue);
+        }
+
+
+        invalidate();
+    }
+
     void gameLoop() {
         boolean infinite = true;
         while (infinite == true) {
