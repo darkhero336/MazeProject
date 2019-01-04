@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     public void drawMaze(View v) {
         Button button = findViewById(R.id.startButton);
         button.setVisibility(View.GONE);
-        demoView.drawCharacter(50, 50);
+        demoView.drawCharacter(0, 0);
         try {
             Thread.sleep(5000);
         }
