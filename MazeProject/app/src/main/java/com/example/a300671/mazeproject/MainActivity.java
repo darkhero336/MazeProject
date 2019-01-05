@@ -34,12 +34,10 @@ public class MainActivity extends AppCompatActivity
     public void drawMaze(View v) {
         Button button = findViewById(R.id.startButton);
         button.setVisibility(View.GONE);
-        demoView.drawCharacter(0, 0);
-        try {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException ex) {
-            System.exit(0);
-        }
+
+        Character character = new Character();
+        demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+
+        demoView.drawMaze();
     }
 }

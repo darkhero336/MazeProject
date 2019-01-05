@@ -19,9 +19,6 @@ class DemoView extends View
     private Path path;
     private Path coverPath;
 
-    private int oldx;
-    private int oldy;
-
     Context context;
 
     private Paint paintSand;
@@ -54,9 +51,6 @@ class DemoView extends View
         paintWhite.setColor(Color.WHITE);
         paintWhite.setStyle(Paint.Style.FILL);
 
-        oldx = 50;
-        oldy = 50;
-
 
     }
 
@@ -85,25 +79,53 @@ class DemoView extends View
     }
 
 
-    void drawCharacter(int x, int y) {
+    void drawCharacter(float x, float y, float oldx, float oldy, int direction) {
+        float xSlant; //how much the base moves from left to right
+        float ySlant;
+        float topX; //coordinates of the top of the triangle
+        float topY;
+
+        if (direction == 0) {
+            xSlant = 0f;
+            ySlant = 20f;
+            topX = x + 20f;
+            topY = y + 10f;
+        }
+        else if (direction == 1) {
+           xSlant = 20f;
+           ySlant = 0f;
+           topX = x + 10f;
+           topY = y - 20f;
+        }
+        else if (direction == 2) {
+            xSlant = 0f;
+            ySlant = 20f;
+            topX = x - 20f;
+            topY = y + 10f;
+        }
+        else if (direction == 3) {
+            xSlant = 20f;
+            ySlant = 0f;
+            topX = x + 10f;
+            topY = y + 20f;
+        }
+        else {
+            return;
+        }
 
         coverPath.moveTo(oldx * stretchValue, oldy * stretchValue);
         coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CCW);
 
 
-        path.moveTo(x * stretchValue, y * stretchValue);
-        path.lineTo((x + 20) * stretchValue, y * stretchValue);
+        path.moveTo(x * stretchValue, y * stretchValue); //draws base
+        path.lineTo((x + xSlant) * stretchValue, (y + ySlant) * stretchValue); //bottom right of triangle
 
 
-        path.moveTo(x * stretchValue, y * stretchValue);
-        path.lineTo((x + 10) * stretchValue, (y - 20) * stretchValue);
+        path.moveTo(x * stretchValue, y * stretchValue); //draws line from left base to top
+        path.lineTo(topX * stretchValue, topY * stretchValue);
 
-        path.moveTo((x + 20) * stretchValue, y * stretchValue);
-        path.lineTo(((x + 20) - 10) * stretchValue, (y - 20) * stretchValue);
-
-        oldx = x;
-        oldy = y;
-
+        path.moveTo((x + xSlant) * stretchValue, (y + ySlant) * stretchValue); //draws line from right base to top
+        path.lineTo(topX * stretchValue, topY * stretchValue);
 
         invalidate();
 
@@ -111,7 +133,7 @@ class DemoView extends View
 
     void drawMaze() {
         int[][][] walls = com.example.a205037.maze.Maze.getAllWalls();
-        int numWalls = com.example.a205037.maze.Maze.getNumberOfWalls();
+        int numWalls = com.example.a205037.maze.Maze.getNumWalls();
 
         int[][] wall;
         int[] point1;
@@ -128,6 +150,7 @@ class DemoView extends View
 
         invalidate();
     }
+
 
     void gameLoop() {
         boolean infinite = true;
