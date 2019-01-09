@@ -36,7 +36,7 @@ public class Maze
     {{280,280}, {240,280}},                       // W25
     {{240,280}, {240,200}},                       // W26
     {{240,200}, {200,200}},                       // W27
-    {{200,200}, {40,200}},                       // W28
+    {{200,200}, {0,200}},                       // W28
     {{200,240}, {40,240}},                       // W29
     {{40,240}, {40,360}},                       // W30
     {{40,360}, {120,360}},                       // W31
@@ -44,8 +44,17 @@ public class Maze
     {{80,320}, {80,280}},                       // W33
     {{80,280}, {160,280}},                       // W34
     {{160,280}, {160,400}},                       // W35
-    {{200,400}, {200,240}},                       // W36
+    {{200,400}, {200,240}}                       // W36
     };             // array of walls[][], wall is an array of points[], a point is an array with [xVal, yVal]
+
+    public static int[][][] winWalls =  {
+    {{160, 400}, {200, 400}},
+    {{200, 400}, {200, 360}},
+    {{200, 360}, {160, 360}},
+    {{160, 360}, {160, 400}}
+    };
+
+
     public static int mazeWidth = 400;
     public static int mazeHeight = 400;
 
@@ -95,8 +104,9 @@ public class Maze
                 {{x, y}, {x + 20, y}}, //20 is the width/height of box
                 {{x + 20, y}, {x + 20, y + 20}},
                 {{x + 20, y + 20}, {x, y + 20}},
-                {{x, y + 20}, {x, y}},
-        };
+                {{x, y + 20}, {x, y}}
+                };
+
 
         for (int i = 0; i < numWalls; i +=1) { //goes through each wall in maze
             for (int j = walls[i][0][0]; j < walls[i][1][0]; j +=1) { //goes through each x cord in individual wall
@@ -116,6 +126,37 @@ public class Maze
         }
 
         return collision;
+    }
+
+    public static boolean checkWin(int x, int y) {
+        boolean win = false;
+
+        int[][][] characterBox = { //creates a rudamentry array that is a box of all the walls surrounding character
+                {{x, y}, {x + 20, y}}, //20 is the width/height of box
+                {{x + 20, y}, {x + 20, y + 20}},
+                {{x + 20, y + 20}, {x, y + 20}},
+                {{x, y + 20}, {x, y}}
+        };
+
+        for (int i = 0; i < 4; i +=1) { //goes through each wall in maze
+            for (int j = winWalls[i][0][0]; j < winWalls[i][1][0]; j +=1) { //goes through each x cord in individual wall
+                for (int k = winWalls[i][0][1]; k < winWalls[i][1][1]; k +=1) { //goes through each y cord in individual wall
+
+                    for (int l = 0; l < 4; l += 1) { //goes through each wall in character
+                        for (int m = characterBox[i][0][0]; m < characterBox[i][1][0]; m += 1) { //goes through each x cord in individual wall of character
+                            for (int n = characterBox[i][0][1]; n < characterBox[i][1][1]; n += 1) { //goes through each y cord in individual wall of character
+                                if (j == m || k == n) { //if point in wall is the same as a point in character
+                                    win = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return win;
+
     }
 
 }
