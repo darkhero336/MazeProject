@@ -1,6 +1,7 @@
 package com.example.a300671.mazeproject;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,8 +25,20 @@ class DemoView extends View
     private Paint paintSand;
     private Paint paintBlack;
     private Paint paintWhite;
+    
+    
+    public boolean rightCalled;
+    public boolean leftCalled;
+    public boolean upCalled;
+    public boolean downCalled;
+                
+    public boolean action;
+    
+    Character character;
 
     private float stretchValue;
+    
+    
 
     public DemoView(Context c, AttributeSet attributeSet)
     {
@@ -50,9 +63,20 @@ class DemoView extends View
         paintWhite = new Paint();
         paintWhite.setColor(Color.WHITE);
         paintWhite.setStyle(Paint.Style.FILL);
+        
+        
+        
+        rightCalled = false;
+        leftCalled = false;
+        upCalled = false;
+        downCalled = false;
+                
+        action = false;
 
-
+        
     }
+    
+    
 
     @Override protected
     void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -152,16 +176,80 @@ class DemoView extends View
     }
 
 
-    void gameLoop() {
-        boolean infinite = true;
-        while (infinite == true) {
-            try {
-                Thread.sleep(100);
-                invalidate();
+    void run() 
+    {
+        boolean running = true;
+        
+        while(running)
+        {
+            try
+            {
+                try {
+                    Thread.sleep(10);
+                }
+                catch (InterruptedException e) {
+                    System.exit(0);
+                }
+
             }
-            catch(InterruptedException ex) {
+            catch (Exception e) {
                 System.exit(0);
             }
+                
+                rightCalled = false;
+                leftCalled = false;
+                upCalled = false;
+                downCalled = false;
+                action = false;
+                
+                if(action == true)
+                {
+                    if(upCalled)
+                    {
+                        if(character.canMoveForward()) {
+                            character.moveForward();
+                        }
+                        upCalled = false;
+                    }
+                    else if(downCalled){
+                        if(character.canMoveBackward()) {
+                            character.moveBackward();
+                            downCalled = false;
+                        }
+
+                    }
+                    else if(rightCalled){
+                        character.turnRight();
+                        rightCalled = false;
+                    }
+                    else if(leftCalled){
+                        character.turnLeft();
+                        leftCalled = false;
+                    }
+                        
+                        
+                }
+                else
+                {
+                    // nothing happens
+                }
+                
+                invalidate();
         }
     }
+    
+    public int getScreenWidth(){
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+    
+    public int getScreenHeight(){
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+    
+    public void setCharacter(Character character)
+    {
+        this.character = character;
+    }
+     
+   
 }
