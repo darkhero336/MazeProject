@@ -97,10 +97,10 @@ public class Maze
         return numWalls;
     }
     
-    public static int[][] getAllWallX(){
+    /*public static int[][] getAllWallX(){
         for(int[][] wall : walls)
             return wall;
-    }
+    }*/
 
     public static boolean checkCollision(int x, int y) { //returns true if character is colliding w/ maze
         boolean collision = false;

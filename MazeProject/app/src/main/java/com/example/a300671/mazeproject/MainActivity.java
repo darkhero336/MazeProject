@@ -1,5 +1,6 @@
 package com.example.a300671.mazeproject;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,73 +22,80 @@ public class MainActivity extends AppCompatActivity
     
     Character character;
     
-     private View.OnTouchListener handleTouch = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
 
-            int x = (int) event.getRawX();
-            int y = (int) event.getRawY();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35)){
-                        demoView.action = true;
-                        demoView.rightCalled = true;
-                    }
-                    else if((x < demoView.getScreenWidth() * 0.35) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35)){
-                        demoView.action = true;
-                        demoView.leftCalled = true;
-                    }
-                    else if(y > demoView.getScreenHeight() * 0.65){
-                        demoView.action = true;
-                        demoView.upCalled = true;
-                    }
-                    else if(y < demoView.getScreenHeight() * 0.35){
-                        demoView.action = true;
-                        demoView.downCalled = false;
-                    }
-                    else{
-                        demoView.action = false;
-                        demoView.upCalled = false;
-                        demoView.downCalled = false;
-                        demoView.leftCalled = false;
-                        demoView.rightCalled = false;
-                    }
-                    break;
-                case MotionEvent.ACTION_MOVE:{
-                    demoView.action = false;
-                    demoView.upCalled = false;
-                    demoView.downCalled = false;
-                    demoView.leftCalled = false;
-                    demoView.rightCalled = false;
-                    break;
-                }
-                case MotionEvent.ACTION_UP:{
-                    demoView.action = false;
-                    demoView.upCalled = false;
-                    demoView.downCalled = false;
-                    demoView.leftCalled = false;
-                    demoView.rightCalled = false;
-                    break;
-                }
-            }
-
-            return true;
-        }
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);      // not using the default activity_main XML resource
-        demoView = (DemoView) findViewById(R.id.signature_canvas);
+        demoView = findViewById(R.id.signature_canvas);
         character = new Character();
         demoView.setCharacter(character);
-        demoView.setOnTouchListener(handleTouch);   // !!! Might be weird
-        //setContentView(demoView);
-        drawMaze(demoView);
-        demoView.run();
+
+
+        demoView.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+
+                int x = (int) event.getRawX();
+                int y = (int) event.getRawY();
+
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        if ((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35))
+                        {
+                            demoView.action = true;
+                            demoView.rightCalled = true;
+                        } else if ((x < demoView.getScreenWidth() * 0.35) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35))
+                        {
+                            demoView.action = true;
+                            demoView.leftCalled = true;
+                        } else if (y > demoView.getScreenHeight() * 0.65)
+                        {
+                            demoView.action = true;
+                            demoView.upCalled = true;
+                        } else if (y < demoView.getScreenHeight() * 0.35)
+                        {
+                            demoView.action = true;
+                            demoView.downCalled = false;
+                        } else
+                        {
+                            demoView.action = false;
+                            demoView.upCalled = false;
+                            demoView.downCalled = false;
+                            demoView.leftCalled = false;
+                            demoView.rightCalled = false;
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                    {
+                        demoView.action = false;
+                        demoView.upCalled = false;
+                        demoView.downCalled = false;
+                        demoView.leftCalled = false;
+                        demoView.rightCalled = false;
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    {
+                        demoView.action = false;
+                        demoView.upCalled = false;
+                        demoView.downCalled = false;
+                        demoView.leftCalled = false;
+                        demoView.rightCalled = false;
+                        break;
+                    }
+                }
+
+                return true;
+            }
+        });
+
     }
 
     public void resetScreen(View v) {
@@ -102,5 +110,7 @@ public class MainActivity extends AppCompatActivity
         demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
 
         demoView.drawMaze();
+
+        demoView.run();
     }
 }

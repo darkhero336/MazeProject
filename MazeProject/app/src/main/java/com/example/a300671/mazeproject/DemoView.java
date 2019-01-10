@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 class DemoView extends View
@@ -96,6 +97,8 @@ class DemoView extends View
         canvas.drawPath(coverPath, paintWhite);
     }
 
+
+
     void resetScreen() {
         path.reset();
         coverPath.reset();
@@ -182,59 +185,56 @@ class DemoView extends View
         
         while(running)
         {
-            try
-            {
-                try {
-                    Thread.sleep(10);
-                }
-                catch (InterruptedException e) {
-                    System.exit(0);
-                }
 
+            try {
+                Thread.sleep(10);
             }
-            catch (Exception e) {
+            catch (InterruptedException e) {
                 System.exit(0);
             }
-                
-                rightCalled = false;
-                leftCalled = false;
-                upCalled = false;
-                downCalled = false;
-                action = false;
-                
-                if(action == true)
-                {
-                    if(upCalled)
-                    {
-                        if(character.canMoveForward()) {
-                            character.moveForward();
-                        }
-                        upCalled = false;
-                    }
-                    else if(downCalled){
-                        if(character.canMoveBackward()) {
-                            character.moveBackward();
-                            downCalled = false;
-                        }
 
-                    }
-                    else if(rightCalled){
-                        character.turnRight();
-                        rightCalled = false;
-                    }
-                    else if(leftCalled){
-                        character.turnLeft();
-                        leftCalled = false;
-                    }
-                        
-                        
-                }
-                else
+
+            rightCalled = false;
+            leftCalled = false;
+            upCalled = false;
+            downCalled = false;
+            action = false;
+
+            if(action == true)
+            {
+                if(upCalled)
                 {
-                    // nothing happens
+                    if(character.canMoveForward()) {
+                        character.moveForward();
+                    }
+                    upCalled = false;
                 }
-                
-                invalidate();
+                else if(downCalled){
+                    if(character.canMoveBackward()) {
+                        character.moveBackward();
+                        downCalled = false;
+                    }
+
+                }
+                else if(rightCalled){
+                    character.turnRight();
+                    rightCalled = false;
+                }
+                else if(leftCalled){
+                    character.turnLeft();
+                    leftCalled = false;
+                }
+
+
+            }
+            /*else
+            {
+                // nothing happens
+            }
+
+            drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+            drawMaze();*/
+            invalidate();
         }
     }
     

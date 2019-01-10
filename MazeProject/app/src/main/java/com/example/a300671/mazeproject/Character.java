@@ -13,9 +13,9 @@ public class Character
     boolean bady;
 
     public Character() {
-        x = 20f;
+        x = 10f;
         y = 20f;
-        oldx = 20f;
+        oldx = 10f;
         oldy = 20f;
         direction = 3;
     }
