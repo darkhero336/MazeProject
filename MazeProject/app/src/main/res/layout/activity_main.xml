@@ -19,7 +19,7 @@
         android:layout_gravity="bottom|center"
         android:onClick="drawMaze"
         android:text="Start Game"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 </FrameLayout>
