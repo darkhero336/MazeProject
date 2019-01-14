@@ -62,8 +62,9 @@ class DemoView extends View
         paintBlack.setColor(Color.BLACK);
 
         paintWhite = new Paint();
-        paintWhite.setColor(Color.WHITE);
+        paintWhite.setColor(Color.BLACK);
         paintWhite.setStyle(Paint.Style.FILL);
+        paintWhite.setStrokeWidth(10);
         
         
         
@@ -93,8 +94,9 @@ class DemoView extends View
     void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        canvas.drawPath(path, paintSand);
         canvas.drawPath(coverPath, paintWhite);
+        canvas.drawPath(path, paintSand);
+
     }
 
 
@@ -142,8 +144,6 @@ class DemoView extends View
             return;
         }
 
-        coverPath.moveTo(oldx * stretchValue, oldy * stretchValue);
-        coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CCW);
 
 
         path.moveTo(x * stretchValue, y * stretchValue); //draws base
@@ -159,6 +159,13 @@ class DemoView extends View
 
         invalidate();
 
+    }
+
+    void coverCharacter(float oldx, float oldy, int direction) {
+        //coverPath.moveTo(oldx * stretchValue, oldy * stretchValue); //WHAT THE FUCK FIX THISS SHIT
+        coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CW);
+        //coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CW);
+        coverPath.addRect(0, -200, 200, 200, Path.Direction.CCW);
     }
 
     void drawMaze() {
