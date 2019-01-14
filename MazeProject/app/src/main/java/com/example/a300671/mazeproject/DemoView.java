@@ -99,6 +99,8 @@ class DemoView extends View
 
 
 
+
+
     void resetScreen() {
         path.reset();
         coverPath.reset();
@@ -154,6 +156,7 @@ class DemoView extends View
         path.moveTo((x + xSlant) * stretchValue, (y + ySlant) * stretchValue); //draws line from right base to top
         path.lineTo(topX * stretchValue, topY * stretchValue);
 
+
         invalidate();
 
     }
@@ -179,7 +182,7 @@ class DemoView extends View
     }
 
 
-    void run() 
+    void run()  //NOT IN USE RN. FUCK U RUN
     {
         boolean running = true;
         
