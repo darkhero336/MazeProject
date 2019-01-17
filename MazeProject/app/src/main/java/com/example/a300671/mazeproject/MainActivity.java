@@ -47,31 +47,27 @@ public class MainActivity extends AppCompatActivity
                 switch (event.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        if ((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35))
+                        if ((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.75) && (y > demoView.getScreenHeight() * 0.25))
                         {
-                            /*demoView.action = true;
-                            demoView.rightCalled = true;*/
                             character.turnRight();
                             demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-                        } else if ((x < demoView.getScreenWidth() * 0.35) && (y < demoView.getScreenHeight() * 0.65) && (y > demoView.getScreenHeight() * 0.35))
+                        } else if ((x < demoView.getScreenWidth() * 0.35) && (y < demoView.getScreenHeight() * 0.75) && (y > demoView.getScreenHeight() * 0.25))
                         {
-                            //demoView.action = true;
-                            //demoView.leftCalled = true;
                             character.turnLeft();
                             demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-                        } else if (y > demoView.getScreenHeight() * 0.65)
+                        } else if (y < demoView.getScreenHeight() * 0.45)
                         {
-                            //demoView.action = true;
-                            //demoView.upCalled = true;
                             if (character.canMoveForward()) {
                                 character.moveForward();
+                                demoView.coverCharacter(character.getOldx(), character.getOldy(), character.getDirection());
+                                demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
                             }
-                            demoView.coverCharacter(character.getOldx(), character.getOldy(), character.getDirection());
-                            demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-                        } else if (y < demoView.getScreenHeight() * 0.35)
+                            else {
+                                resetScreen(v);
+                            }
+
+                        } else if (y > demoView.getScreenHeight() * 0.55)
                         {
-                            /*demoView.action = true;
-                            demoView.downCalled = false;*/
                             if (character.canMoveBackward()) {
                                 character.moveBackward();
                             }
@@ -85,17 +81,17 @@ public class MainActivity extends AppCompatActivity
                             demoView.rightCalled = false;
                         }
                         break;
-                    /*case MotionEvent.ACTION_MOVE:
-                    {
-                        /*demoView.action = false;
-                        demoView.upCalled = false;
-                        demoView.downCalled = false;
-                        demoView.leftCalled = false;
-                        demoView.rightCalled = false;
-                        break;
-                        character.moveForward();
-                        demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-                    }*/
+            /*case MotionEvent.ACTION_MOVE:
+            {
+                /*demoView.action = false;
+                demoView.upCalled = false;
+                demoView.downCalled = false;
+                demoView.leftCalled = false;
+                demoView.rightCalled = false;
+                break;
+                character.moveForward();
+                demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+            }*/
                     case MotionEvent.ACTION_UP:
                     {
                         demoView.action = false;
@@ -117,8 +113,18 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /*@Override
+    public void onStart() {
+        demoView.run();
+    }*/
+
     public void resetScreen(View v) {
         demoView.resetScreen();
+        character.resetCharacter();
+        demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+
+        demoView.drawMaze();
+
     }
 
    /* public void drawMaze(View v) {

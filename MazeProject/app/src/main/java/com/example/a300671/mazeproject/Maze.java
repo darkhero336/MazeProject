@@ -113,22 +113,15 @@ public class Maze
                 };
 
 
-        for (int i = 0; i < numWalls; i +=1) { //goes through each wall in maze
-            for (int j = walls[i][0][0]; j < walls[i][1][0]; j +=1) { //goes through each x cord in individual wall
-                for (int k = walls[i][0][1]; k < walls[i][1][1]; k +=1) { //goes through each y cord in individual wall
-
-                    for (int l = 0; l < 4; l += 1) { //goes through each wall in character
-                        for (int m = characterBox[i][0][0]; m < characterBox[i][1][0]; m += 1) { //goes through each x cord in individual wall of character
-                            for (int n = characterBox[i][0][1]; n < characterBox[i][1][1]; n += 1) { //goes through each y cord in individual wall of character
-                                if (j == m || k == n) { //if point in wall is the same as a point in character
-                                    collision = true;
-                                }
-                            }
-                        }
-                    }
-                }
+        for (int[][] wall: walls) {
+            for (int[][] characterWall: characterBox) {
+                if ((wall[0][0] < x && wall[0][1] > x) && (wall[0][0] < y || wall[1][0] > y)); //NOT DONE YET NOT WORKING
             }
         }
+
+
+
+
 
         return collision;
     }

@@ -20,13 +20,21 @@ public class Character
         direction = 3;
     }
 
+    public void resetCharacter() {
+        x = 10f;
+        y = 20f;
+        oldx = 10f;
+        oldy = 20f;
+        direction = 3;
+    }
+
     public boolean canMoveForward()
     {
         int tempX = (int) x;
         int tempY = (int) y;
         
         if (direction == 0) {
-            if(com.example.a205037.maze.Maze.checkCollision((tempX + 20),tempY))
+            if(com.example.a205037.maze.Maze.checkCollision((tempX + 40),tempY))
             {
                 return false;
             }
@@ -36,7 +44,7 @@ public class Character
             }
         }
         else if (direction == 1) {
-            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 20)))
+            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY - 40)))
             {
                 return false;
             }
@@ -46,7 +54,7 @@ public class Character
             }
         }
         else if (direction == 2) {
-            if(com.example.a205037.maze.Maze.checkCollision((tempX - 20), tempY))
+            if(com.example.a205037.maze.Maze.checkCollision((tempX - 40), tempY))
             {
                 return false;
             }
@@ -56,7 +64,7 @@ public class Character
             }
         }
         else if (direction == 3) {
-            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY-20)))
+            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 40)))
             {
                 return false;
             }
@@ -125,64 +133,48 @@ public class Character
     }
     
     public void moveForward() {
-        
-        if(canMoveForward())
-        {
-        
-            if (direction == 0) {
-                oldx = x;
-                x += 40;                   // make a "speed" variable to replace magic "40" ?
-            }
-            else if (direction == 1) {
-                oldy = y;
-                y -= 40;
-            }
-            else if (direction == 2) {
-                oldx = x;
-                x -= 40;
-            }
-            else if (direction == 3) {
-                oldy = y;
-                y += 40;
-            }
-            else
-                System.out.print("Logical infeasibility in moveForward");
+
+        if (direction == 0) {
+            oldx = x;
+            x += 20;                   // make a "speed" variable to replace magic "40" ?
+        } else if (direction == 1) {
+            oldy = y;
+            y -= 20;
+        } else if (direction == 2) {
+            oldx = x;
+            x -= 20;
+        } else if (direction == 3) {
+            oldy = y;
+            y += 20;
         }
-        else
-        {
-            System.out.print("Can't move forward");
-        }
+
+        //oldx = 0;
+        //oldy = 400;
+
+
+
+
     }
     
-    public void moveBackward()
-    {
-        if(canMoveBackward())
-        {
-        
-            if (direction == 0) {
-                oldx = x;
-                x -= 40;
-            }
-            else if (direction == 1) {
-                oldy = y;
-                y += 40;
-            }
-            else if (direction == 2) {
-                oldx = x;
-                x += 40;
-            }
-            else if (direction == 3) {
-                oldy = y;
-                y -= 40;
-            }
-            else
-                System.out.print("Logical infeasibility in moveBackward");
-        }
-        else
-        {
-            System.out.print("Can't move backward");
+    public void moveBackward() {
+
+
+        if (direction == 0) {
+            oldx = x;
+            x -= 20;
+        } else if (direction == 1) {
+            oldy = y;
+            y += 20;
+        } else if (direction == 2) {
+            oldx = x;
+            x += 20;
+        } else if (direction == 3) {
+            oldy = y;
+            y -= 20;
         }
     }
+
+
 
     public void turnLeft() {
         direction = (direction + 1) % 4;
@@ -193,12 +185,6 @@ public class Character
             direction -= 1;
         else
             direction = 3;
-    }
-
-    public void resetCharacter() {
-        x = 20f;
-        y = 20f;
-        direction = 3;
     }
 
     public float getX()

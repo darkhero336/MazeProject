@@ -62,7 +62,7 @@ class DemoView extends View
         paintBlack.setColor(Color.BLACK);
 
         paintWhite = new Paint();
-        paintWhite.setColor(Color.BLACK);
+        paintWhite.setColor(Color.WHITE);
         paintWhite.setStyle(Paint.Style.FILL);
         paintWhite.setStrokeWidth(10);
         
@@ -94,8 +94,9 @@ class DemoView extends View
     void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        canvas.drawPath(coverPath, paintWhite);
         canvas.drawPath(path, paintSand);
+        canvas.drawPath(coverPath, paintWhite);
+        //resetScreen();
 
     }
 
@@ -106,7 +107,7 @@ class DemoView extends View
     void resetScreen() {
         path.reset();
         coverPath.reset();
-        invalidate();
+        //invalidate();
     }
 
 
@@ -162,10 +163,8 @@ class DemoView extends View
     }
 
     void coverCharacter(float oldx, float oldy, int direction) {
-        //coverPath.moveTo(oldx * stretchValue, oldy * stretchValue); //WHAT THE FUCK FIX THISS SHIT
-        coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CW);
-        //coverPath.addRect(oldx * stretchValue, (oldy + 20) * stretchValue, (oldx + 20) * stretchValue, oldy * stretchValue, Path.Direction.CW);
-        coverPath.addRect(0, -200, 200, 200, Path.Direction.CCW);
+        coverPath.addRect((oldx * stretchValue) - 2, (oldy * stretchValue) - 5, ((oldx + 20) * stretchValue) + 2,(oldy + 20) * stretchValue, Path.Direction.CCW);
+        invalidate();
     }
 
     void drawMaze() {
@@ -210,7 +209,7 @@ class DemoView extends View
             downCalled = false;
             action = false;
 
-            if(action == true)
+            /*if(action == true)
             {
                 if(upCalled)
                 {
@@ -237,13 +236,13 @@ class DemoView extends View
 
 
             }
-            /*else
+            else
             {
                 // nothing happens
-            }
+            }*/
 
             drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-            drawMaze();*/
+            drawMaze();
             invalidate();
         }
     }
