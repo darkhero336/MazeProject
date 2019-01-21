@@ -47,12 +47,90 @@ public class Maze
     {{200,400}, {200,240}}                       // W36
     };             // array of walls[][], wall is an array of points[], a point is an array with [xVal, yVal]
 
-    public static int[][][] winWalls =  {
-    {{160, 400}, {200, 400}},
-    {{200, 400}, {200, 360}},
-    {{200, 360}, {160, 360}},
-    {{160, 360}, {160, 400}}
+    public static int[] winCoords = {180,380};
+
+    public static int[][] oddWallPoints = {
+            {20,200},
+            {40,20},
+            {40,60},
+            {40,100},
+            {40,140},
+            {40,260},
+            {40,200},
+            {40,300},
+            {40,340},
+            {60,160},
+            {60,240},
+            {60,360},
+            {80,60},
+            {80,100},
+            {80,140},
+            {80,300},
+            {100,40},
+            {100,200},
+            {100,240},
+            {100,280},
+            {100,360},
+            {120,60},
+            {120,100},
+            {120,140},
+            {120,340},
+            {140, 200},
+            {140, 240},
+            {140,280},
+            {160,20},
+            {160,60},
+            {160,100},
+            {160,140},
+            {160,300},
+            {160,340},
+            {160,380},
+            {200,60},
+            {200,100},
+            {200,140},
+            {200,180},
+            {200,260},
+            {200,300},
+            {200,340},
+            {200,380},
+            {220,40},
+            {220,200},
+            {240,100},
+            {240,140},
+            {240,180},
+            {240,220},
+            {240,260},
+            {240,340},
+            {260,40},
+            {260,200},
+            {260,280},
+            {260,320},
+            {260,360},
+            {280,60},
+            {280,100},
+            {280,140},
+            {280,260},
+            {300,200},
+            {300,320},
+            {300,360},
+            {320,60},
+            {320,100},
+            {320,140},
+            {320,260},
+            {320,300},
+            {340,40},
+            {340,200},
+            {340,360},
+            {360,100},
+            {360,140},
+            {360,180},
+            {360,220},
+            {360,260},
+            {360,300},
+            {360,340},
+            {380,40}
     };
+
 
 
     public static int mazeWidth = 400;
@@ -104,54 +182,58 @@ public class Maze
 
     public static boolean checkCollision(int x, int y) { //returns true if character is colliding w/ maze
         boolean collision = false;
+        boolean xMatch = false;
+        boolean yMatch = false;
 
-        int[][][] characterBox = { //creates a rudamentry array that is a box of all the walls surrounding character
-                {{x, y}, {x + 20, y}}, //20 is the width/height of box
-                {{x + 20, y}, {x + 20, y + 20}},
-                {{x + 20, y + 20}, {x, y + 20}},
-                {{x, y + 20}, {x, y}}
-                };
+        if((x > 0) && (x < 400) && (y > 0) && (y < 400)){
+            if((x % 40 == 0) && (y % 40 == 0))
+                collision = true;
+            else{
+                if(((x % 40 == 20) && (y % 40 == 20))) {
+                    collision = false;
+                }
+                else{
+                    if(((x % 40 == 20) && (y % 40 == 0)) || ((x % 40 == 0) &&(y % 40 == 20))){
 
-
-        for (int[][] wall: walls) {
-            for (int[][] characterWall: characterBox) {
-                if ((wall[0][0] < x && wall[0][1] > x) && (wall[0][0] < y || wall[1][0] > y)); //NOT DONE YET NOT WORKING
-            }
-        }
-
-
-
-
-
-        return collision;
-    }
-
-    public static boolean checkWin(int x, int y) {
-        boolean win = false;
-
-        int[][][] characterBox = { //creates a rudamentry array that is a box of all the walls surrounding character
-                {{x, y}, {x + 20, y}}, //20 is the width/height of box
-                {{x + 20, y}, {x + 20, y + 20}},
-                {{x + 20, y + 20}, {x, y + 20}},
-                {{x, y + 20}, {x, y}}
-        };
-
-        for (int i = 0; i < 4; i +=1) { //goes through each wall in maze
-            for (int j = winWalls[i][0][0]; j < winWalls[i][1][0]; j +=1) { //goes through each x cord in individual wall
-                for (int k = winWalls[i][0][1]; k < winWalls[i][1][1]; k +=1) { //goes through each y cord in individual wall
-
-                    for (int l = 0; l < 4; l += 1) { //goes through each wall in character
-                        for (int m = characterBox[i][0][0]; m < characterBox[i][1][0]; m += 1) { //goes through each x cord in individual wall of character
-                            for (int n = characterBox[i][0][1]; n < characterBox[i][1][1]; n += 1) { //goes through each y cord in individual wall of character
-                                if (j == m || k == n) { //if point in wall is the same as a point in character
-                                    win = true;
-                                }
-                            }
+                        if(bruteForceMatch(x, y) == true){
+                            collision = true;
+                        }
+                        else{
+                            collision = false;
                         }
                     }
                 }
             }
         }
+        else{
+            collision = true;
+        }
+
+        /*for(int wall = 0; wall < numWalls; wall++){
+            if(getWallPointA(wall)[0] == getWallPointB(wall)[0]){
+                int wallX = getWallPointA(wall)[0];
+
+            }
+        }*/
+
+
+        return collision;
+    }
+
+    public static boolean bruteForceMatch(int x, int y){
+        int[] point = {x, y};
+        for(int[] vals : oddWallPoints){
+            if((vals[0] == point[0]) && (vals[1] == point[1])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkWin(int x, int y) {
+        boolean win = false;
+
+
 
         return win;
 

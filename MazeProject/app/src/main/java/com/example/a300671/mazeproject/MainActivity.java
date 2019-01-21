@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity
                         {
                             if (character.canMoveForward()) {
                                 character.moveForward();
-                                demoView.coverCharacter(character.getOldx(), character.getOldy(), character.getDirection());
                                 demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
                             }
                             else {
@@ -70,6 +69,10 @@ public class MainActivity extends AppCompatActivity
                         {
                             if (character.canMoveBackward()) {
                                 character.moveBackward();
+                                demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+                            }
+                            else{
+                                resetScreen(v);
                             }
                             demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
                         } else
@@ -107,9 +110,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
+        demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection()); // for safe measure
 
-        demoView.drawMaze();
 
     }
 

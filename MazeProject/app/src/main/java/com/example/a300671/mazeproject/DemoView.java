@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 class DemoView extends View
 {
@@ -19,7 +20,6 @@ class DemoView extends View
     private Bitmap bitmap;
     private Canvas canvas;
     private Path path;
-    private Path coverPath;
 
     Context context;
 
@@ -48,8 +48,6 @@ class DemoView extends View
         //canvas = new Canvas();
 
         path = new Path();
-        coverPath = new Path();
-
         stretchValue = 2.7f;
 
         paintSand = new Paint();
@@ -95,7 +93,6 @@ class DemoView extends View
     {
         super.onDraw(canvas);
         canvas.drawPath(path, paintSand);
-        canvas.drawPath(coverPath, paintWhite);
         //resetScreen();
 
     }
@@ -106,65 +103,83 @@ class DemoView extends View
 
     void resetScreen() {
         path.reset();
-        coverPath.reset();
         //invalidate();
     }
 
-
     void drawCharacter(float x, float y, float oldx, float oldy, int direction) {
+
+
+        float refX = x; // reference point of triangle
+        float refY = y; // ^
         float xSlant; //how much the base moves from left to right
         float ySlant;
         float topX; //coordinates of the top of the triangle
         float topY;
 
         if (direction == 0) {
+            refX = x - 10f;
+            refY = y - 10f;
+
             xSlant = 0f;
             ySlant = 20f;
-            topX = x + 20f;
-            topY = y + 10f;
+            topX = refX + 20f;
+            topY = refY+ 10f;
         }
         else if (direction == 1) {
-           xSlant = 20f;
-           ySlant = 0f;
-           topX = x + 10f;
-           topY = y - 20f;
-        }
-        else if (direction == 2) {
-            xSlant = 0f;
-            ySlant = 20f;
-            topX = x - 20f;
-            topY = y + 10f;
-        }
-        else if (direction == 3) {
+            refX = x - 10f;
+            refY = y + 10f;
+
             xSlant = 20f;
             ySlant = 0f;
-            topX = x + 10f;
-            topY = y + 20f;
+            topX = refX + 10f;
+            topY = refY - 20f;
+        }
+        else if (direction == 2) {
+            refX = x + 10f;
+            refY = y - 10f;
+
+            xSlant = 0f;
+            ySlant = 20f;
+            topX = refX - 20f;
+            topY = refY + 10f;
+        }
+        else if (direction == 3) {
+            refX = x - 10f;
+            refY = y - 10f;
+
+            xSlant = 20f;
+            ySlant = 0f;
+            topX = refX + 10f;
+            topY = refY + 20f;
         }
         else {
             return;
         }
 
+        path.reset();  // clears all of the built path that has already been drawn, including the maze walls and character
+
+        drawMaze();   // redraws the maze walls
 
 
-        path.moveTo(x * stretchValue, y * stretchValue); //draws base
-        path.lineTo((x + xSlant) * stretchValue, (y + ySlant) * stretchValue); //bottom right of triangle
+        path.moveTo(refX * stretchValue, refY * stretchValue); //draws base
+        path.lineTo((refX + xSlant) * stretchValue, (refY + ySlant) * stretchValue); //bottom right of triangle
 
 
-        path.moveTo(x * stretchValue, y * stretchValue); //draws line from left base to top
+        path.moveTo(refX * stretchValue, refY * stretchValue); //draws line from left base to top
         path.lineTo(topX * stretchValue, topY * stretchValue);
 
-        path.moveTo((x + xSlant) * stretchValue, (y + ySlant) * stretchValue); //draws line from right base to top
+        path.moveTo((refX + xSlant) * stretchValue, (refY + ySlant) * stretchValue); //draws line from right base to top
         path.lineTo(topX * stretchValue, topY * stretchValue);
 
 
         invalidate();
 
-    }
+        CharSequence text = x + ", " + y + "";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
 
-    void coverCharacter(float oldx, float oldy, int direction) {
-        coverPath.addRect((oldx * stretchValue) - 2, (oldy * stretchValue) - 5, ((oldx + 20) * stretchValue) + 2,(oldy + 20) * stretchValue, Path.Direction.CCW);
-        invalidate();
+        toast.show();
+
     }
 
     void drawMaze() {

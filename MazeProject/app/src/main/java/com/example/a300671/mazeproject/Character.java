@@ -13,17 +13,17 @@ public class Character
     boolean bady;
 
     public Character() {
-        x = 10f;
+        x = 20f;
         y = 20f;
-        oldx = 10f;
+        oldx = 20f;
         oldy = 20f;
         direction = 3;
     }
 
     public void resetCharacter() {
-        x = 10f;
+        x = 20f;
         y = 20f;
-        oldx = 10f;
+        oldx = 20f;
         oldy = 20f;
         direction = 3;
     }
@@ -34,7 +34,7 @@ public class Character
         int tempY = (int) y;
         
         if (direction == 0) {
-            if(com.example.a205037.maze.Maze.checkCollision((tempX + 40),tempY))
+            if(com.example.a205037.maze.Maze.checkCollision((tempX + 20),tempY))
             {
                 return false;
             }
@@ -44,7 +44,7 @@ public class Character
             }
         }
         else if (direction == 1) {
-            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY - 40)))
+            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY - 20)))
             {
                 return false;
             }
@@ -54,7 +54,7 @@ public class Character
             }
         }
         else if (direction == 2) {
-            if(com.example.a205037.maze.Maze.checkCollision((tempX - 40), tempY))
+            if(com.example.a205037.maze.Maze.checkCollision((tempX - 20), tempY))
             {
                 return false;
             }
@@ -64,7 +64,7 @@ public class Character
             }
         }
         else if (direction == 3) {
-            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 40)))
+            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 20)))
             {
                 return false;
             }
@@ -86,7 +86,7 @@ public class Character
         int tempY = (int) y;
         
         if (direction == 0) {
-            if(com.example.a205037.maze.Maze.checkCollision((tempX - 20),tempY))
+            if(com.example.a205037.maze.Maze.checkCollision((tempX + 20),tempY))
             {
                 return false;
             }
@@ -136,7 +136,7 @@ public class Character
 
         if (direction == 0) {
             oldx = x;
-            x += 20;                   // make a "speed" variable to replace magic "40" ?
+            x += 20;                   // make a "speed" variable to replace magic "20" ?
         } else if (direction == 1) {
             oldy = y;
             y -= 20;
@@ -177,11 +177,16 @@ public class Character
 
 
     public void turnLeft() {
+        oldx = x;
+        oldy = y;
         direction = (direction + 1) % 4;
     }
     
     public void turnRight() {
-        if(direction >= 0) 
+        oldx = x;
+        oldy = y;
+
+        if(direction >= 0)
             direction -= 1;
         else
             direction = 3;
