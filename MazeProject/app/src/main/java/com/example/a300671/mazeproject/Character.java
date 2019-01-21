@@ -12,12 +12,15 @@ public class Character
     boolean badx;
     boolean bady;
 
+    boolean win;
+
     public Character() {
         x = 20f;
         y = 20f;
         oldx = 20f;
         oldy = 20f;
         direction = 3;
+        win = false;
     }
 
     public void resetCharacter() {
@@ -64,7 +67,12 @@ public class Character
             }
         }
         else if (direction == 3) {
-            if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 20)))
+            if (com.example.a205037.maze.Maze.checkWin(tempX, (tempY + 20)))
+            {
+                win = true;
+                return false;
+            }
+            else if(com.example.a205037.maze.Maze.checkCollision(tempX, (tempY + 20)))
             {
                 return false;
             }
@@ -215,5 +223,9 @@ public class Character
     public int getDirection()
     {
         return direction;
+    }
+
+    public boolean getWin() {
+        return win;
     }
 }

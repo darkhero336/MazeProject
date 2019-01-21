@@ -174,11 +174,11 @@ class DemoView extends View
 
         invalidate();
 
-        CharSequence text = x + ", " + y + "";
+        /*CharSequence text = x + ", " + y + "";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
 
-        toast.show();
+        toast.show();*/
 
     }
 
@@ -202,8 +202,15 @@ class DemoView extends View
         invalidate();
     }
 
+    void drawWin() {
+        path.reset();
+        invalidate();
+        Toast toast = Toast.makeText(context, "YOU WIN!!!", Toast.LENGTH_LONG);
+        toast.show();
+    }
 
-    void run()  //NOT IN USE RN. FUCK U RUN
+
+    void run()
     {
         boolean running = true;
         

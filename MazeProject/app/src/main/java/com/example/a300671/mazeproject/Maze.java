@@ -233,6 +233,10 @@ public class Maze
     public static boolean checkWin(int x, int y) {
         boolean win = false;
 
+        if ((x > 160 && x < 200) && (y > 360 && y < 400))
+        {
+            win = true;
+        }
 
 
         return win;

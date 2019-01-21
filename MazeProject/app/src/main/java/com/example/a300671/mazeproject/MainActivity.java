@@ -61,11 +61,15 @@ public class MainActivity extends AppCompatActivity
                                 character.moveForward();
                                 demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
                             }
+                            else if (character.getWin())
+                            {
+                                demoView.drawWin();
+                            }
                             else {
                                 resetScreen(v);
                             }
 
-                        } else if (y > demoView.getScreenHeight() * 0.55)
+                        } /*else if (y > demoView.getScreenHeight() * 0.55)
                         {
                             if (character.canMoveBackward()) {
                                 character.moveBackward();
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity
                                 resetScreen(v);
                             }
                             demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
-                        } else
+                        }*/ else
                         {
                             demoView.action = false;
                             demoView.upCalled = false;
