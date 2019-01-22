@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         character = new Character();
         demoView.setCharacter(character);
 
-
+        //Listens for when the user touches the screen then executes code
         demoView.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
                 switch (event.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        if ((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.75) && (y > demoView.getScreenHeight() * 0.25))
+                        if ((x > demoView.getScreenWidth() * 0.65) && (y < demoView.getScreenHeight() * 0.75) && (y > demoView.getScreenHeight() * 0.25)) //These hard coded values are just near the top of and corners of the screen
                         {
                             character.turnRight();
                             demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
                 character.moveForward();
                 demoView.drawCharacter(character.getX(), character.getY(), character.getOldx(), character.getOldy(), character.getDirection());
             }*/
-                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_UP: //When the user lifts their finger it sets all movement options to false
                     {
                         demoView.action = false;
                         demoView.upCalled = false;

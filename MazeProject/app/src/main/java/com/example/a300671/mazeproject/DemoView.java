@@ -17,18 +17,18 @@ class DemoView extends View
 
     private int width;
     private int height;
-    private Bitmap bitmap;
+    private Bitmap bitmap; //defines the canvas screen
     private Canvas canvas;
     private Path path;
 
-    Context context;
+    Context context; //for context
 
     private Paint paintSand;
     private Paint paintBlack;
     private Paint paintWhite;
     
     
-    public boolean rightCalled;
+    public boolean rightCalled; //look below
     public boolean leftCalled;
     public boolean upCalled;
     public boolean downCalled;
@@ -48,7 +48,7 @@ class DemoView extends View
         //canvas = new Canvas();
 
         path = new Path();
-        stretchValue = 2.0f;
+        stretchValue = (float)(Resources.getSystem().getDisplayMetrics().widthPixels / com.example.a205037.maze.Maze.getMazeWidth()); //this stretches the maze points to fit the lenovo tablets' screen
 
         paintSand = new Paint();
         paintSand.setColor(0xffffd417);
@@ -56,17 +56,17 @@ class DemoView extends View
         paintSand.setStrokeWidth(10);            // width of the pen's stroke
         paintSand.setAntiAlias(true);
 
-        paintBlack = new Paint();
+        paintBlack = new Paint(); //we don't use this but it is here for customization
         paintBlack.setColor(Color.BLACK);
 
-        paintWhite = new Paint();
+        paintWhite = new Paint(); //we don't use this but it is here for customization
         paintWhite.setColor(Color.WHITE);
         paintWhite.setStyle(Paint.Style.FILL);
         paintWhite.setStrokeWidth(10);
         
         
         
-        rightCalled = false;
+        rightCalled = false; //these variables tell us if the character is moving forward/back or left/right
         leftCalled = false;
         upCalled = false;
         downCalled = false;
@@ -89,7 +89,7 @@ class DemoView extends View
 
 
     @Override protected
-    void onDraw(Canvas canvas)
+    void onDraw(Canvas canvas) //actually renders the screen
     {
         super.onDraw(canvas);
         canvas.drawPath(path, paintSand);
@@ -189,7 +189,7 @@ class DemoView extends View
         int[][] wall;
         int[] point1;
         int[] point2;
-        for (int i = 0; i < numWalls; i += 1) {
+        for (int i = 0; i < numWalls; i += 1) { //just a simple loop that goes through each wall of the maze and draws it
             wall = walls[i];
             point1 = wall[0];
             point2 = wall[1];
@@ -199,7 +199,7 @@ class DemoView extends View
         }
 
 
-        invalidate();
+        invalidate(); //calls onDraw()
     }
 
     void drawWin() {
@@ -210,7 +210,7 @@ class DemoView extends View
     }
 
 
-    void run()
+    void run() //we never got to use, it would make the game much better but ran out of time, call it from onStart() if you want to utilize it, not bug-tested yet
     {
         boolean running = true;
         
