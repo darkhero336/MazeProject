@@ -5,17 +5,17 @@ public class Character
 
     float x;
     float y;
-    float oldx; //these are for covering up the player's last position  with a white square
+    float oldx; //these are for covering up the player's last position
     float oldy;
     int direction;  //0 (right), 1 (up), 2 (left), 3 (down)
     
-    boolean badx;
+    boolean badx; //used for LAST version of collision detection that ended up sucking too much processing power and not working
     boolean bady;
 
     boolean win;
 
     public Character() {
-        x = 20f;
+        x = 20f; //These x and y values work on any sized screen b/c when we draw the character they are multiplied by DemoView.stretchValue
         y = 20f;
         oldx = 20f;
         oldy = 20f;
@@ -83,7 +83,7 @@ public class Character
         }
         else
         {
-            System.out.println("Logical infeasibility in canMoveForward");
+            System.out.println("Logical infeasibility in canMoveForward"); //Derek added these, idk why
             return false;
         }
     }
