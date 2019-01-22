@@ -48,7 +48,7 @@ class DemoView extends View
         //canvas = new Canvas();
 
         path = new Path();
-        stretchValue = 2.7f;
+        stretchValue = 2.0f;
 
         paintSand = new Paint();
         paintSand.setColor(0xffffd417);
