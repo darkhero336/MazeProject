@@ -156,17 +156,17 @@ public class Maze
         return walls[wallIndex][1];
     }
 
-    public static int[][][] getAllWalls()
+    public static int[][][] getAllWalls()         // accessor method to get "walls"
     {
         return walls;
     }
 
-    public static int getMazeWidth()
+    public static int getMazeWidth()              // maze width is static 400 here
     {
         return mazeWidth;
     }
 
-    public static int getMazeHeight()
+    public static int getMazeHeight()             // maze width is static 400 here
     {
         return mazeHeight;
     }
@@ -180,20 +180,18 @@ public class Maze
             return wall;
     }*/
 
-    public static boolean checkCollision(int x, int y) { //returns true if character is colliding w/ maze
+    public static boolean checkCollision(int x, int y) {  // returns true if character is colliding w/ a maze wall point
         boolean collision = false;
-        boolean xMatch = false;
-        boolean yMatch = false;
 
-        if((x > 0) && (x < 400) && (y > 0) && (y < 400)){
-            if((x % 40 == 0) && (y % 40 == 0))
-                collision = true;
+        if((x > 0) && (x < 400) && (y > 0) && (y < 400)){  // checks to see if the player point is in the maze's largest set of walls
+            if((x % 40 == 0) && (y % 40 == 0))  // if the player point lands on a point whose x value is a multiple of 40 and the y value is a multiple of 40, the player point will always be landing on a wall of the maze
+                collision = true; 
             else{
-                if(((x % 40 == 20) && (y % 40 == 20))) {
+                if(((x % 40 == 20) && (y % 40 == 20))) {  // if the player lands on a point that (though x is not a multiple of 40 and y is not a multiple of 40) has multiples of 20 for x and y, the player is always on an open point
                     collision = false;
                 }
                 else{
-                    if(((x % 40 == 20) && (y % 40 == 0)) || ((x % 40 == 0) &&(y % 40 == 20))){
+                    if(((x % 40 == 20) && (y % 40 == 0)) || ((x % 40 == 0) && (y % 40 == 20))){  // if the x is a multiple is a mutiple of 20 while the y is a multiple of 40 OR the x is a multiple of 40 while the y is a multiple of 40, it is an "odd" point. An odd point can be either a closed wall or an open player path
 
                         if(bruteForceMatch(x, y) == true){
                             collision = true;
@@ -209,22 +207,15 @@ public class Maze
             collision = true;
         }
 
-        /*for(int wall = 0; wall < numWalls; wall++){
-            if(getWallPointA(wall)[0] == getWallPointB(wall)[0]){
-                int wallX = getWallPointA(wall)[0];
-
-            }
-        }*/
-
 
         return collision;
     }
 
     public static boolean bruteForceMatch(int x, int y){
-        int[] point = {x, y};
-        for(int[] vals : oddWallPoints){
-            if((vals[0] == point[0]) && (vals[1] == point[1])) {
-                return true;
+        int[] point = {x, y};     // generates a point array based off of x and y parameters
+        for(int[] vals : oddWallPoints){     // for each array in the 2D array "oddWallPoints" (see explanaition above @ oddWallPoints's instantiation
+            if((vals[0] == point[0]) && (vals[1] == point[1])) {  //if the given point is equal to any Odd Wall Points in the maze
+                return true;      // return true, so the given point does match an odd wall point
             }
         }
         return false;
