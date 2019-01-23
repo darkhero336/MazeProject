@@ -15,20 +15,20 @@ import android.widget.Toast;
 class DemoView extends View
 {
 
-    private int width;
-    private int height;
-    private Bitmap bitmap; //defines the canvas screen
-    private Canvas canvas;
-    private Path path;
+    private int width; // width of screen
+    private int height; // height of screen
+    private Bitmap bitmap; // defines the canvas screen
+    private Canvas canvas; // the canvas used in this instance of DemoView
+    private Path path; // this "path" here is the lines which make up the body of the screen, both the maze and the player
 
     Context context; //for context
 
-    private Paint paintSand;
+    private Paint paintSand;   // colors
     private Paint paintBlack;
     private Paint paintWhite;
     
     
-    public boolean rightCalled; //look below
+    public boolean rightCalled; // see initialization of DemoView
     public boolean leftCalled;
     public boolean upCalled;
     public boolean downCalled;
@@ -66,7 +66,7 @@ class DemoView extends View
         
         
         
-        rightCalled = false; //these variables tell us if the character is moving forward/back or left/right
+        rightCalled = false; //these variables tell us if the character is moving forward/back or left/right - these aren't used in the current program but could be used in a future version of the prohram
         leftCalled = false;
         upCalled = false;
         downCalled = false;
@@ -89,7 +89,7 @@ class DemoView extends View
 
 
     @Override protected
-    void onDraw(Canvas canvas) //actually renders the screen
+    void onDraw(Canvas canvas) // renders the screen
     {
         super.onDraw(canvas);
         canvas.drawPath(path, paintSand);
@@ -101,12 +101,12 @@ class DemoView extends View
 
 
 
-    void resetScreen() {
+    void resetScreen() { // clears the screen of what has been drawn by "path", so the walls of the maze and the player character
         path.reset();
         //invalidate();
     }
 
-    void drawCharacter(float x, float y, float oldx, float oldy, int direction) {
+    void drawCharacter(float x, float y, float oldx, float oldy, int direction) { // draws the body of the player character (NOTE: in the process of redrawing the character in this method, everything drawn by path is erased and character is redrawn)
 
 
         float refX = x; // reference point of triangle
@@ -116,7 +116,7 @@ class DemoView extends View
         float topX; //coordinates of the top of the triangle
         float topY;
 
-        if (direction == 0) {
+        if (direction == 0) {  // the location of the reference point is dependent on the direction of the character
             refX = x - 10f;
             refY = y - 10f;
 
@@ -182,7 +182,7 @@ class DemoView extends View
 
     }
 
-    void drawMaze() {
+    void drawMaze() { // tells the path to cover the walls of the maze
         int[][][] walls = com.example.a205037.maze.Maze.getAllWalls();
         int numWalls = com.example.a205037.maze.Maze.getNumWalls();
 
@@ -202,16 +202,16 @@ class DemoView extends View
         invalidate(); //calls onDraw()
     }
 
-    void drawWin() {
+    void drawWin() { // win-state visuals -- underwhelming
         path.reset();
         invalidate();
         Toast toast = Toast.makeText(context, "YOU WIN!!!", Toast.LENGTH_LONG);
         toast.show();
     }
 
-
+    // the below method is a designed "game loop" for running the maze program
     void run() //we never got to use, it would make the game much better but ran out of time, call it from onStart() if you want to utilize it, not bug-tested yet
-    {
+    {          // note from Derek: the method is based on logical boolean variables - input makes a variable true, and the program seeing that it is true reacts accordingly, then resets the respective variable to false and awaits next input
         boolean running = true;
         
         while(running)
@@ -269,15 +269,15 @@ class DemoView extends View
         }
     }
     
-    public int getScreenWidth(){
+    public int getScreenWidth(){ // accessor
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
     
-    public int getScreenHeight(){
+    public int getScreenHeight(){ // accessor
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
     
-    public void setCharacter(Character character)
+    public void setCharacter(Character character)  // sets the view's character object to the passed character object
     {
         this.character = character;
     }
