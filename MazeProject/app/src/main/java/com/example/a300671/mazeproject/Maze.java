@@ -49,11 +49,11 @@ public class Maze
 
     public static int[] winCoords = {180,380};
 
-    public static int[][] oddWallPoints = {
-            {20,200},
-            {40,20},
-            {40,60},
-            {40,100},
+    public static int[][] oddWallPoints = { // in essence, because of the way the maze is designed, all points that have x values that are multiples of 40 and y values that are multiples of 40 are always wall point, or wall spaces
+            {20,200},                       // similarly, all points that have x values that are multiples of 20 and y values that are multiples of 20 are always open to the player
+            {40,20},                        // points that are 20-40 mixes (odd points), [x is multiple of 40 and y is only a multiple of 20] or [y is a multiple of 40 and x is only a multiple of 20], have the potential to be either player accessible or a wall
+            {40,60},                        // these 20-40 mix tiles that are designed to wall the player are recorded here as "odd wall points"
+            {40,100},                       // the 220 column's odd wall points are not recorded, so that the 220 column can be a secret shortcut to the end (mostly for bug-testing purposes but left in for fun)
             {40,140},
             {40,260},
             {40,200},
@@ -93,8 +93,6 @@ public class Maze
             {200,300},
             {200,340},
             {200,380},
-            {220,40},
-            {220,200},
             {240,100},
             {240,140},
             {240,180},
@@ -181,21 +179,21 @@ public class Maze
     }*/
 
     public static boolean checkCollision(int x, int y) { //returns true if character is colliding w/ maze
-        boolean collision = false;
+        boolean collision = false;                       // "bruteForceMatch" would work fine for the purpose of this method, but that is slower, so this method speeds up the process to see first if the given point is a 40-40 point or a 20-20 point
         boolean xMatch = false;
         boolean yMatch = false;
 
-        if((x > 0) && (x < 400) && (y > 0) && (y < 400)){
-            if((x % 40 == 0) && (y % 40 == 0))
+        if((x > 0) && (x < 400) && (y > 0) && (y < 400)){ // sees if the given point is within the boundaries of the maze itself
+            if((x % 40 == 0) && (y % 40 == 0)) // sees if the values of the point are multiples of 40 -- 40-40 spaces are always wall spaces
                 collision = true;
             else{
-                if(((x % 40 == 20) && (y % 40 == 20))) {
+                if(((x % 40 == 20) && (y % 40 == 20))) { // sees if the given point has values that are multiples of 20 -- 20-20 spaces are always player spaces
                     collision = false;
                 }
                 else{
-                    if(((x % 40 == 20) && (y % 40 == 0)) || ((x % 40 == 0) &&(y % 40 == 20))){
+                    if(((x % 40 == 20) && (y % 40 == 0)) || ((x % 40 == 0) &&(y % 40 == 20))){ // checks that the given point is a 20-40 or 40-20 "mixed" space
 
-                        if(bruteForceMatch(x, y) == true){
+                        if(bruteForceMatch(x, y) == true){ // dedicates the rest of the calculations to bruteForceMatch method
                             collision = true;
                         }
                         else{
@@ -220,17 +218,17 @@ public class Maze
         return collision;
     }
 
-    public static boolean bruteForceMatch(int x, int y){
+    public static boolean bruteForceMatch(int x, int y){ // cross references the given point's values with the values of all the "odd" wall spaces and returns if the point is on a wall space
         int[] point = {x, y};
         for(int[] vals : oddWallPoints){
-            if((vals[0] == point[0]) && (vals[1] == point[1])) {
+            if((vals[0] == point[0]) && (vals[1] == point[1])) { // if both and x and y are equivalent to an x and y of an odd wall point, then the given point is on a wall space
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean checkWin(int x, int y) {
+    public static boolean checkWin(int x, int y) { // checks to see if the player character is in the win space
         boolean win = false;
 
         if ((x > 160 && x < 200) && (y > 360 && y < 400)) //Basically it only wins if it is in one position so we only need one if statement to check
